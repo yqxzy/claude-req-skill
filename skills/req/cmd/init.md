@@ -18,5 +18,6 @@
 上次停留：初始化完成，待开始 Step 1
 ```
 
-3. 将需求路径写入 `~/.claude/requirements/_active`
-4. 提示：「已初始化，执行 `/req background` 开始第一步」
+3. 输出路径并记住：「已初始化 [<id>] <名称>，路径：~/.claude/requirements/<id>-<名称>/」
+4. 本次对话后续命令将操作此路径
+5. 提示：「执行 `/req background` 开始第一步」

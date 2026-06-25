@@ -2,14 +2,18 @@
 
 收到 `/req <命令> [参数]` 时：
 
-1. 若命令不是 `init` / `load` / `list`，先读取 `~/.claude/requirements/_active` 获取当前需求路径
-   - 文件不存在则提示：「当前无激活需求，请先执行 `/req load <id>` 或 `/req init <id> <名称>`」
-2. 读取对应的命令文件，按其指令执行
+1. **确定当前需求路径**（`init` / `load` / `list` 命令跳过此步）：
+   - 若本次对话已执行过 `/req load`，使用那次确定的需求路径
+   - 若本次对话尚未执行 `/req load`，提示用户：
+     「请先执行 `/req load <id>` 加载需求，或 `/req list` 查看所有需求」
+   - **不读取任何共享文件来判断当前需求**，防止多需求并行时互相干扰
+
+2. 读取对应命令文件，按其指令执行：
 
 | 命令 | 功能 | 指令文件 |
 |------|------|---------|
 | `init <id> <名称>` | 初始化新需求 | `~/.claude/skills/req/cmd/init.md` |
-| `load <id>` | 跨对话恢复上下文 ← 新对话首先执行 | `~/.claude/skills/req/cmd/load.md` |
+| `load <id>` | 跨对话恢复上下文 ← 每次新对话先执行 | `~/.claude/skills/req/cmd/load.md` |
 | `list` | 列出所有需求及进度 | `~/.claude/skills/req/cmd/list.md` |
 | `status` | 查看当前需求进度 | `~/.claude/skills/req/cmd/status.md` |
 | `background` | Step 1：梳理背景信息 | `~/.claude/skills/req/cmd/background.md` |
