@@ -39,8 +39,8 @@
 01_changes.md         # 变更点
 02_codebase.md        # 现有代码调研
 03_solutions.md       # 多方案评估
-04_flowchart.mmd      # 执行流程图（Mermaid）
-05_classdiagram.mmd   # 核心类图（Mermaid）
+04_flowchart.puml     # 执行流程图（PlantUML 时序图）
+05_classdiagram.puml  # 核心类图（PlantUML，蓝=修改/绿=新增）
 06_dev_notes.md       # 开发记录（关键决策/坑点）
 07_review.md          # 代码评审记录
 08_release.md         # 上线记录
@@ -78,6 +78,6 @@ cp claude-req-skill/requirements/_specs/* ~/.claude/requirements/_specs/
 
 ## 版本
 
-**v0.1.0** — 初版，单 Agent Skill 实现，未使用 Workflow 编排。
+**v0.1.1** — 流程图改为 PlantUML 时序图，类图改为 PlantUML（蓝=修改/绿=新增，DDD 分层）。
 
 后续计划：`/req codebase`、`/req solutions`、`/req review` 三步改造为并行 Workflow，提升分析质量。

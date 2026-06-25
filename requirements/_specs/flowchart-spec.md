@@ -1,115 +1,137 @@
-# 流程图绘制规范
+# 流程图绘制规范（PlantUML 时序图）
 
-本规范适用于所有需求开发中的执行流程图，使用 Mermaid `flowchart` 语法。
+需求开发中的执行流程图使用 PlantUML **Sequence Diagram** 语法。
 
 ---
 
-## 基本格式
+## 基础框架
 
-```mermaid
-flowchart TD
-    A([开始]) --> B[步骤]
-    B --> C{判断条件}
-    C -->|是| D[处理A]
-    C -->|否| E[处理B]
-    D --> F([结束])
-    E --> F
+```plantuml
+@startuml
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+box "当前服务名" #F8F9FA
+    participant "ClassA" as A
+    participant "ClassB" as B
+end box
+
+box "外部服务" #E9ECEF
+    participant "ExternalService\n(thrift/http)" as Ext
+end box
+
+== 阶段标题 ==
+
+A -> B : 方法调用(参数)
+B -> Ext : 外部调用(参数)
+Ext --> B : 返回值
+B --> A : 返回值
+
+@enduml
 ```
 
 ---
 
-## 节点形状规范
+## 参与者规范
 
-| 形状 | 语法 | 用途 |
-|------|------|------|
-| 圆角矩形 | `A([文字])` | 开始/结束节点 |
-| 矩形 | `A[文字]` | 普通处理步骤 |
-| 菱形 | `A{文字}` | 条件判断/分支 |
-| 平行四边形 | `A[/文字/]` | 输入/输出 |
-| 圆柱 | `A[(文字)]` | 数据库/存储操作 |
-| 矩形（双线） | `A[[文字]]` | 子流程调用 |
-| 六边形 | `A{{文字}}` | 准备/配置步骤 |
+### box 分组
+- 当前服务内的类放在同一个 box，背景色 `#F8F9FA`
+- 外部服务统一放在「外部服务」box，背景色 `#E9ECEF`
+- box 名称写实际服务/模块名称
 
----
+### 参与者命名
+- 显示名：类名（如涉及多行可加换行 `\n` 标注 thrift 服务名 / 包名）
+- 别名（`as`）：简短英文，方便引用
 
-## 连线规范
-
-| 连线 | 语法 | 用途 |
-|------|------|------|
-| 普通流转 | `A --> B` | 默认流程方向 |
-| 带标签流转 | `A -->|标签| B` | 条件分支标签（如：是/否、成功/失败） |
-| 异步/消息 | `A -.-> B` | 异步调用、消息队列 |
-| 双向依赖 | `A <--> B` | 慎用，仅在真正双向时使用 |
+```plantuml
+participant "TGoodsTradeQueryService\n(gtq)" as GTQ
+participant "TAggreUnitService\n(cspu)" as CSPU
+```
 
 ---
 
-## 颜色/样式规范
+## 消息类型
 
-**子系统用 subgraph 区分**：
-```mermaid
-flowchart TD
-    subgraph 客户端
-        A[用户操作]
+| 语法 | 含义 | 使用场景 |
+|------|------|---------|
+| `A -> B : 方法名(参数)` | 同步调用 | 本地方法调用、RPC 调用 |
+| `B --> A : 返回值` | 返回 | 所有返回值用虚线箭头 |
+| `A -> A : 内部操作` | 自调用 | 读取配置、内部计算、Lion 开关 |
+| `A ->> B : 发消息` | 异步 | MQ 发送等 |
+
+---
+
+## 分支与条件
+
+使用 `alt / else / end` 表示分支，**每个分支必须写清楚条件**：
+
+```plantuml
+alt 开关关闭
+    note over A: 走老链路
+
+else 开关打开
+    A -> B : 调用新逻辑()
+
+    alt 调用失败 / 降级
+        B --> A : 异常 / 空结果
+        note over A #FFE4E1: 降级：回退处理
+
+    else 调用成功
+        B --> A : 正常结果
     end
-    subgraph 服务端
-        B[业务处理]
-        C[(数据库)]
-    end
-    A --> B --> C
+
+end
 ```
 
-**关键路径高亮**（主流程使用默认样式，异常/旁路使用虚线）：
-```mermaid
-flowchart TD
-    A --> B
-    B --> C
-    B -.->|异常| D[错误处理]
+**降级/异常路径**：note 背景色使用 `#FFE4E1`（淡红），文字前缀「降级：」
+
+---
+
+## 阶段分隔
+
+用 `== 阶段名称 ==` 分隔主要逻辑阶段，每个阶段描述一个完整的业务动作：
+
+```plantuml
+== 判断开关 ==
+== 查询基础信息 ==
+== 执行核心逻辑 ==
+== 公共收尾逻辑 ==
 ```
 
 ---
 
-## 命名规范
+## Note 规范
 
-- 节点 ID 使用有意义的英文缩写（如 `validateInput`，不要用 `A1`、`node123`）
-- 节点文字简洁，不超过 15 个字
-- 条件分支标签使用「是/否」或具体条件值（如「库存充足/库存不足」）
-
----
-
-## 粒度规范
-
-- **主流程图**：覆盖完整业务流程，每个节点代表一个业务操作（不是代码行）
-- **详细流程图**（可选）：针对复杂子流程单独展开
-- 单张图节点数量建议 **5~15 个**，超过 15 个考虑拆分子图
+| 场景 | 语法 |
+|------|------|
+| 说明调用背景/参数含义 | `note right: 说明文字` |
+| 说明某参与者的状态/决策 | `note over A: 说明文字` |
+| 标注降级/异常路径 | `note over A #FFE4E1: 降级：...` |
+| 跨多个参与者的说明 | `note over A, B: 说明文字` |
 
 ---
 
 ## 必须包含的内容
 
-1. **开始和结束节点**（圆角矩形）
-2. **所有主要异常/错误处理路径**（虚线标注）
-3. **外部系统交互**（用 subgraph 区分系统边界）
-4. **数据库/存储操作**（圆柱形节点）
-5. **关键判断条件**（菱形节点，标注清楚判断依据）
+1. **所有 Lion 开关判断**（用 `alt` 表达，并说明开关名）
+2. **所有外部服务调用**（含服务名和接口名）
+3. **所有降级路径**（note 标红）
+4. **返回值类型**（`-->` 箭头后注明返回的类型/内容）
+5. **阶段分隔**（至少按主要业务阶段分）
 
 ---
 
-## 示例：订单创建流程
+## skinparam 固定配置
 
-```mermaid
-flowchart TD
-    start([用户提交订单]) --> validateInput[校验入参]
-    validateInput --> checkStock{库存是否充足}
-    checkStock -->|库存不足| returnError[/返回库存不足错误/]
-    checkStock -->|库存充足| lockStock[(锁定库存)]
-    lockStock --> createOrder[(创建订单记录)]
-    createOrder --> sendMQ[发送订单创建消息]
-    sendMQ --> returnSuccess[/返回订单ID/]
-    returnSuccess --> endNode([结束])
-    returnError --> endNode
+每个流程图开头统一使用：
 
-    subgraph 异步处理
-        sendMQ -.-> paymentService[[支付服务]]
-        sendMQ -.-> notifyService[[通知服务]]
-    end
+```plantuml
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
 ```
+
+---
+
+## 文件命名
+
+保存为 `04_flowchart.puml`（PlantUML 文件后缀）

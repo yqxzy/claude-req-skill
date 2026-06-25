@@ -20,8 +20,8 @@
 01_changes.md         # Step 2: 变更点
 02_codebase.md        # Step 3: 现有代码分析
 03_solutions.md       # Step 4: 多方案评估
-04_flowchart.mmd      # Step 5: 执行流程图（Mermaid）
-05_classdiagram.mmd   # Step 6: 核心类图（Mermaid）
+04_flowchart.puml     # Step 5: 执行流程图（PlantUML 时序图）
+05_classdiagram.puml  # Step 6: 核心类图（PlantUML）
 06_dev_notes.md       # Step 7: 开发记录（关键决策/坑点）
 07_review.md          # Step 8: 代码评审记录
 08_release.md         # Step 9: 上线记录
@@ -292,10 +292,10 @@ _state.md             # 进度状态（每步完成后更新）
 **执行流程**：
 
 1. 读取选定方案的实现路径，理解核心流程
-2. 严格按照 `flowchart-spec.md` 中的规范绘制 Mermaid 流程图
-3. **以代码块形式预览**，供用户审查
+2. 严格按照 `flowchart-spec.md` 中的规范绘制 PlantUML 时序图
+3. **以代码块形式预览**（`@startuml ... @enduml`），供用户审查
 4. 等待用户反馈（可多轮修改，直到满意）
-5. 用户确认后写入 `04_flowchart.mmd`，更新 `_state.md`
+5. 用户确认后写入 `04_flowchart.puml`，更新 `_state.md`
 6. **重要**：每次修改都更新文件，不要等到"完全满意"才保存
 
 ---
@@ -307,18 +307,18 @@ _state.md             # 进度状态（每步完成后更新）
 **加载的上下文**：
 - `00_background.md`
 - `03_solutions.md`（选定方案）
-- `04_flowchart.mmd`（流程图，了解数据流）
+- `04_flowchart.puml`（流程图，了解数据流）
 - `02_codebase.md`（现有类结构参考）
 - `~/.claude/requirements/_specs/classdiagram-spec.md`（类图规范）
 
 **执行流程**：
 
 1. 从流程图和方案中识别核心领域对象
-2. 确认需要画的类的范围（新增类 + 修改类 + 关键依赖类）
-3. 严格按照 `classdiagram-spec.md` 规范绘制 Mermaid 类图
-4. **预览给用户**，等待反馈
-5. 可按模块/层次分多张图（如：领域层、服务层单独画）
-6. 用户确认后写入 `05_classdiagram.mmd`，更新 `_state.md`
+2. 确认范围：只画 Repository 层及以上（新增类绿色、修改类蓝色、未变动类无色）
+3. 严格按照 `classdiagram-spec.md` 规范绘制 PlantUML 类图
+4. **预览给用户**（`@startuml ... @enduml`），等待反馈
+5. 可按模块分多张图，图后附「变更说明」文字标注
+6. 用户确认后写入 `05_classdiagram.puml`，更新 `_state.md`
 
 ---
 
@@ -330,8 +330,8 @@ _state.md             # 进度状态（每步完成后更新）
 - `00_background.md`（背景）
 - `01_changes.md`（变更清单，作为 checklist）
 - `03_solutions.md`（选定方案）
-- `04_flowchart.mmd`（流程图）
-- `05_classdiagram.mmd`（类图）
+- `04_flowchart.puml`（流程图）
+- `05_classdiagram.puml`（类图）
 
 **执行流程**：
 
@@ -372,8 +372,8 @@ _state.md             # 进度状态（每步完成后更新）
 
 **加载的上下文**：
 - `03_solutions.md`（选定方案，作为评审基准）
-- `04_flowchart.mmd`（流程图，验证代码是否符合设计）
-- `05_classdiagram.mmd`（类图，验证类设计）
+- `04_flowchart.puml`（流程图，验证代码是否符合设计）
+- `05_classdiagram.puml`（类图，验证类设计）
 - `06_dev_notes.md`（开发记录，了解偏差背景）
 
 **执行流程**：
