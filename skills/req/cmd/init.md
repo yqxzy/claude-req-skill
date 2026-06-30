@@ -11,9 +11,10 @@
 关键约束：（待填写）
 
 进度：
-[ ] Step1-背景  [ ] Step2-变更  [ ] Step3-调研
-[ ] Step4-方案  [ ] Step5-流程图 [ ] Step6-类图
-[ ] Step7-开发  [ ] Step8-评审  [ ] Step9-上线
+[ ] Step1-背景   [ ] Step2-变更   [ ] Step3-调研
+[ ] Step4-方案   [ ] Step5-测试Case
+[ ] Step6-流程图 [ ] Step7-类图
+[ ] Step8-开发   [ ] Step9-评审   [ ] Step10-上线
 
 上次停留：初始化完成，待开始 Step 1
 ```

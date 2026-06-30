@@ -20,8 +20,9 @@
 | `changes` | Step 2：整理变更点 | `~/.claude/skills/req/cmd/changes.md` |
 | `codebase` | Step 3：调研现有代码 | `~/.claude/skills/req/cmd/codebase.md` |
 | `solutions` | Step 4：多方案设计与评估 | `~/.claude/skills/req/cmd/solutions.md` |
-| `flowchart` | Step 5：绘制执行流程图 | `~/.claude/skills/req/cmd/flowchart.md` |
-| `classdiagram` | Step 6：绘制核心类图 | `~/.claude/skills/req/cmd/classdiagram.md` |
-| `dev` | Step 7：开发辅助模式 | `~/.claude/skills/req/cmd/dev.md` |
-| `review` | Step 8：代码评审 | `~/.claude/skills/req/cmd/review.md` |
-| `release` | Step 9：上线记录 | `~/.claude/skills/req/cmd/release.md` |
+| `testcases` | Step 5：系统测试核心 Case | `~/.claude/skills/req/cmd/testcases.md` |
+| `flowchart` | Step 6：绘制执行流程图 | `~/.claude/skills/req/cmd/flowchart.md` |
+| `classdiagram` | Step 7：绘制核心类图 | `~/.claude/skills/req/cmd/classdiagram.md` |
+| `dev` | Step 8：开发辅助模式 | `~/.claude/skills/req/cmd/dev.md` |
+| `review` | Step 9：代码评审 | `~/.claude/skills/req/cmd/review.md` |
+| `release` | Step 10：上线记录 | `~/.claude/skills/req/cmd/release.md` |

@@ -1,10 +1,10 @@
-# /req dev — Step 7：开发辅助模式
+# /req dev — Step 8：开发辅助模式
 
 **加载文件**：
 - `_state.md`（获取选定方案名和关键约束）
 - `01_changes.md`（变更清单，作为开发 checklist）
-- `04_flowchart.puml`（流程图，回答实现问题的参考基准）
-- `05_classdiagram.puml`（类图，回答类设计问题的参考基准）
+- `05_flowchart.puml`（流程图，回答实现问题的参考基准）
+- `06_classdiagram.puml`（类图，回答类设计问题的参考基准）
 
 **注意**：不加载 `00_background.md` / `02_codebase.md` / `03_solutions.md`，保持上下文精简。
 
@@ -16,7 +16,7 @@
 3. 当用户做出与原设计不同的决策时，提示执行 `/req dev note` 记录：
 
 **`/req dev note`（子命令）**：
-将当前决策追加写入 `06_dev_notes.md`，格式：
+将当前决策追加写入 `07_dev_notes.md`，格式：
 ```
 ### <日期> - <决策描述>
 背景：<为什么>

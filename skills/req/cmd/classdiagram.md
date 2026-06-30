@@ -1,8 +1,8 @@
-# /req classdiagram — Step 6：核心类图
+# /req classdiagram — Step 7：核心类图
 
 **加载文件**：
 - `_state.md`（确认选定方案和关键约束）
-- `04_flowchart.puml`（了解数据流和参与者）
+- `05_flowchart.puml`（了解数据流和参与者）
 - `02_codebase.md`（现有类结构参考，只读「核心类/接口位置」部分）
 - `~/.claude/requirements/_specs/classdiagram-spec.md`
 
@@ -14,6 +14,6 @@
    - 新增类：`#lightgreen`
    - 未变动类：无色
    - 新增方法加 `//` 注释
-4. 预览后等待反馈，多轮修改，每轮确认后写入 `05_classdiagram.puml`
+4. 预览后等待反馈，多轮修改，每轮确认后写入 `06_classdiagram.puml`
 5. 图后附「变更说明」文字
-6. 更新 `_state.md`：Step6 打勾，上次停留更新
+6. 更新 `_state.md`：Step7 打勾，上次停留更新
