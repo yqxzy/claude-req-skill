@@ -11,20 +11,26 @@
 skinparam ParticipantPadding 20
 skinparam BoxPadding 10
 
-box "当前服务名" #F8F9FA
+box "ServiceA" #F8F9FA
     participant "ClassA" as A
     participant "ClassB" as B
 end box
 
-box "外部服务" #E9ECEF
-    participant "ExternalService\n(thrift/http)" as Ext
+box "ServiceB" #E9ECEF
+    participant "ClassC" as C
+end box
+
+box "ServiceC" #EEF2FF
+    participant "ExternalClass\n(thrift接口名)" as Ext
 end box
 
 == 阶段标题 ==
 
 A -> B : 方法调用(参数)
-B -> Ext : 外部调用(参数)
-Ext --> B : 返回值
+B -> C : 跨服务调用(参数)
+C -> Ext : 外部调用(参数)
+Ext --> C : 返回值
+C --> B : 返回值
 B --> A : 返回值
 
 @enduml
@@ -35,9 +41,10 @@ B --> A : 返回值
 ## 参与者规范
 
 ### box 分组
-- 当前服务内的类放在同一个 box，背景色 `#F8F9FA`
-- 外部服务统一放在「外部服务」box，背景色 `#E9ECEF`
-- box 名称写实际服务/模块名称
+- **一个 box = 一个服务**，box 名称写服务的实际名称（如 sales-shelf、gtq、cspu）
+- 同一服务的所有参与者放在同一个 box 内
+- 有几个服务就画几个 box，不按「内部/外部」分，按**服务边界**分
+- 颜色用于区分不同服务，依次使用：`#F8F9FA` `#E9ECEF` `#EEF2FF` `#FFF3E0`
 
 ### 参与者命名
 - 显示名：类名（如涉及多行可加换行 `\n` 标注 thrift 服务名 / 包名）
